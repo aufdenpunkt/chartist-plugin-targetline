@@ -17,9 +17,9 @@
     root['Chartist.plugins.ctTargetLine'] = factory(Chartist);
   }
 }(this, function (Chartist) {
-  (function(_window, document, Chartist) {
+  (function (_window, document, Chartist) {
     'use strict';
-    var defaultOptions = {
+    const defaultOptions = {
       class: 'ct-target-line',
       value: null,
       axis: 'Y', // TODO: implement horizontally target line
@@ -28,14 +28,15 @@
       label: 0,
     };
     Chartist.plugins = Chartist.plugins || {};
-    Chartist.plugins.ctTargetLine = function(options) {
+    Chartist.plugins.ctTargetLine = (options) => {
       options = Chartist.extend({}, defaultOptions, options);
-      return function ctTargetLine(chart) {
-          function projectY(chartRect, bounds, value) {
+      return (chart) => {
+          const projectY = (chartRect, bounds, value) => {
             return Math.floor(chartRect.y1 - (chartRect.height() / bounds.max * value)) - 1
           }
-          chart.on('created', function (context) {
-            var targetLineY = projectY(context.chartRect, context.bounds, options.value || Math.abs(context.bounds.low));
+
+          chart.on('created', (context) => {
+            const targetLineY = projectY(context.chartRect, context.bounds, options.value || Math.abs(context.bounds.low));
             if (!options.value && context.bounds.low === 0) {
               return;
             }
